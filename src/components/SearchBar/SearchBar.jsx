@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
 import s from "./SearchBar.module.css";
 
 export function SearchBar({ onSearchImages }) {
   return (
-    <div className={s.bar}>
+    <header className={s.bar}>
       <form
         onSubmit={onSearchImages}
         className={s.formSearch}
@@ -12,8 +13,19 @@ export function SearchBar({ onSearchImages }) {
           {" "}
         </button>
 
-        <input type="text" name="inputSearch" className={s.inputSearch} />
+        <input
+          type="text"
+          name="inputSearch"
+          className={s.inputSearch}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
       </form>
-    </div>
+    </header>
   );
 }
+
+SearchBar.propTypes = {
+  onSearchImages: PropTypes.func,
+};

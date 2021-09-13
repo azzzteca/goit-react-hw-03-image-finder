@@ -1,18 +1,23 @@
+import PropTypes from "prop-types";
+import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
 import s from "./ImageGallery.module.css";
 
-export function ImageGallery({ imageList }) {
-  console.log(imageList);
+export function ImageGallery({ imageList, onShowImageInModal }) {
   return (
-    <div className={s.imageGallery}>
+    <ul className={s.imageGallery}>
       {imageList.map((image) => (
-        <div key={image.id} className={s.imageGalleryItem}>
-          <img
-            src={image.webformatURL}
-            alt={image.tags}
-            className={s.imageGalleryImage}
+        <li key={image.id} className={s.imageGalleryItem}>
+          <ImageGalleryItem
+            image={image}
+            onShowImageInModal={onShowImageInModal}
           />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
+
+ImageGallery.propTypes = {
+  imageList: PropTypes.array,
+  onShowImageInModal: PropTypes.func,
+};
