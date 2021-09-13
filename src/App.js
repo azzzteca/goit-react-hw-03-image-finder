@@ -21,7 +21,6 @@ export class App extends React.Component {
 
   handleOnLoadMore = (evt) => {
     evt.preventDefault();
-    console.log("запрашиваем еще фото");
 
     this.setState((prevState) => {
       return { page: prevState.page + 1 };
@@ -38,8 +37,10 @@ export class App extends React.Component {
       )
         .then((r) => r.json())
         .then((data) =>
-          this.setState({
-            imageList: data.hits,
+          this.setState((prevState) => {
+            return {
+              imageList: [...prevState.imageList, ...data.hits],
+            };
           })
         )
         .catch((error) => console.log(error));
