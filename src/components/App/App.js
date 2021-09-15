@@ -1,9 +1,11 @@
 import React from "react";
+import Loader from "react-loader-spinner";
 import { SearchBar } from "../SearchBar/SearchBar.jsx";
 import { ImageGallery } from "../ImageGallery/ImageGallery.jsx";
 import { Button } from "../Button/Button.jsx";
 import { Modal } from "../Modal/Modal.jsx";
 import s from "./App.module.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export class App extends React.Component {
   state = {
@@ -83,6 +85,15 @@ export class App extends React.Component {
         {this.state.imageList.length !== 0 && (
           <Button onLoadMore={this.handleOnLoadMore} />
         )}
+
+        <Loader
+          // visible="false"
+          type="ThreeDots"
+          color="#00BFFF"
+          height={50}
+          width={50}
+          // timeout={5000}
+        />
 
         {this.state.modalIsShown && (
           <Modal
