@@ -15,6 +15,6 @@ export function ImageGalleryItem({ image, onShowImageInModal }) {
 }
 
 ImageGalleryItem.propTypes = {
-  image: PropTypes.shape,
+  image: PropTypes.object,
   onShowImageInModal: PropTypes.func,
 };

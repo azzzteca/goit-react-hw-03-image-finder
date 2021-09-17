@@ -5,8 +5,8 @@ import s from "./ImageGallery.module.css";
 export function ImageGallery({ imageList, onShowImageInModal }) {
   return (
     <ul className={s.imageGallery}>
-      {imageList.map((image) => (
-        <li key={image.id} className={s.imageGalleryItem}>
+      {imageList.map((image, idx) => (
+        <li key={idx} className={s.imageGalleryItem}>
           <ImageGalleryItem
             image={image}
             onShowImageInModal={onShowImageInModal}

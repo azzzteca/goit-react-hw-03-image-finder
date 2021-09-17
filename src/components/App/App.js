@@ -14,6 +14,7 @@ export class App extends React.Component {
     imageList: [],
     modalIsShown: false,
     hiSrcImageUrl: null,
+    loading: false,
   };
 
   componentDidUpdate(_, prevState) {
@@ -21,6 +22,10 @@ export class App extends React.Component {
       prevState.image !== this.state.image ||
       prevState.page !== this.state.page
     ) {
+      this.setState({
+        loading: true,
+      });
+
       fetch(
         `https://pixabay.com/api/?key=22659093-928fc585fa86297f1703a77f0&q=${this.state.image}&orientation=horizontal&page=${this.state.page}&per_page=12`
       )
@@ -32,8 +37,18 @@ export class App extends React.Component {
             };
           })
         )
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
+        .finally(
+          this.setState({
+            loading: false,
+          })
+        );
     }
+
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
   }
 
   handleSearchImages = (evt) => {
@@ -47,15 +62,8 @@ export class App extends React.Component {
   };
 
   handleOnLoadMore = (evt) => {
-    evt.preventDefault();
-
     this.setState((prevState) => {
       return { page: prevState.page + 1 };
-    });
-
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
     });
   };
 
@@ -86,14 +94,11 @@ export class App extends React.Component {
           <Button onLoadMore={this.handleOnLoadMore} />
         )}
 
-        <Loader
-          // visible="false"
-          type="ThreeDots"
-          color="#00BFFF"
-          height={50}
-          width={50}
-          // timeout={5000}
-        />
+        {this.state.loading && (
+          <div className={s.Loader}>
+            <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+          </div>
+        )}
 
         {this.state.modalIsShown && (
           <Modal
