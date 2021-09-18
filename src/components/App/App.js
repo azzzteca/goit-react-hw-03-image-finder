@@ -1,11 +1,12 @@
 import React from "react";
 import Loader from "react-loader-spinner";
+import { ToastContainer, toast } from "react-toastify";
 import { SearchBar } from "../SearchBar/SearchBar.jsx";
 import { ImageGallery } from "../ImageGallery/ImageGallery.jsx";
 import { Button } from "../Button/Button.jsx";
 import { Modal } from "../Modal/Modal.jsx";
 import s from "./App.module.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export class App extends React.Component {
   state = {
@@ -15,6 +16,7 @@ export class App extends React.Component {
     modalIsShown: false,
     hiSrcImageUrl: null,
     loading: false,
+    error: null,
   };
 
   componentDidUpdate(_, prevState) {
@@ -29,7 +31,11 @@ export class App extends React.Component {
       fetch(
         `https://pixabay.com/api/?key=22659093-928fc585fa86297f1703a77f0&q=${this.state.image}&orientation=horizontal&page=${this.state.page}&per_page=12`
       )
-        .then((r) => r.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
         .then((data) =>
           this.setState((prevState) => {
             return {
@@ -106,6 +112,7 @@ export class App extends React.Component {
             closeModal={this.onHandleCloseModal}
           />
         )}
+        <ToastContainer />
       </div>
     );
   }
