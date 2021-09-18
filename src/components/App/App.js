@@ -14,7 +14,6 @@ export class App extends React.Component {
     page: 1,
     imageList: [],
     modalIsShown: false,
-    hiSrcImageUrl: null,
     loading: false,
     error: null,
   };
@@ -36,14 +35,20 @@ export class App extends React.Component {
             return response.json();
           }
         })
-        .then((data) =>
+        .then((data) => {
+          if (data.hits.length === 0) {
+            throw new Error();
+          }
+
           this.setState((prevState) => {
             return {
               imageList: [...prevState.imageList, ...data.hits],
             };
-          })
-        )
-        .catch((error) => console.log(error))
+          });
+        })
+        .catch((error) => {
+          toast("Please input correct picture name");
+        })
         .finally(
           this.setState({
             loading: false,
@@ -60,11 +65,17 @@ export class App extends React.Component {
   handleSearchImages = (evt) => {
     evt.preventDefault();
 
+    if (evt.target.elements.inputSearch.value === "") {
+      return toast("Please input picture name");
+    }
+
     this.setState({
       image: evt.target.elements.inputSearch.value,
       imageList: [],
       page: 1,
     });
+
+    evt.target.reset();
   };
 
   handleOnLoadMore = (evt) => {
