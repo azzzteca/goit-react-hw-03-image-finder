@@ -44,17 +44,14 @@ export class App extends React.Component {
           this.setState((prevState) => {
             return {
               imageList: [...prevState.imageList, ...data.hits],
+              loading: false,
             };
           });
         })
         .catch((error) => {
           toast("Please input correct picture name");
         })
-        .finally(
-          this.setState({
-            loading: false,
-          })
-        );
+        .finally();
     }
 
     window.scrollTo({
@@ -108,14 +105,14 @@ export class App extends React.Component {
           onShowImageInModal={this.onHandleShowImageInModal}
         />
 
-        {this.state.imageList.length !== 0 && (
-          <Button onLoadMore={this.handleOnLoadMore} />
-        )}
-
         {this.state.loading && (
           <div className={s.Loader}>
             <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
           </div>
+        )}
+
+        {this.state.imageList.length !== 0 && (
+          <Button onLoadMore={this.handleOnLoadMore} />
         )}
 
         {this.state.modalIsShown && (
