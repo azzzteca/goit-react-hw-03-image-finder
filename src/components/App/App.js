@@ -14,6 +14,7 @@ export class App extends React.Component {
     page: 1,
     imageList: [],
     modalIsShown: false,
+    hiSrcImageUrl: "",
     loading: false,
     error: null,
   };
